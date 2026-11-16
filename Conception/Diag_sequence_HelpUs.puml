@@ -1,0 +1,27 @@
+@startuml
+title Utilisateur Connecté : Recherche créneaux dispo d'un autre utilisateur
+
+participant "Utilisateur A" as UA
+participant "Application" as App
+participant "Utilisateur B" as UB
+participant "Base de données" as DB
+
+UA -> App: Connexion avec identifiants
+App -> DB: Vérifie identifiants
+DB --> App: Validation OK
+App -> UA: Confirmation connexion
+
+UA -> App: Recherche aide pour compétence
+App -> DB: Trouve utilisateurs disponibles
+DB --> App: Liste utilisateurs
+App -> UA: Affiche profil de UB
+
+UA -> App: recherche créneaux disponibles
+App -> DB: Vérifie créneaux disponibles
+DB --> App: Créneaux disponibles
+UA -> App: Envoie email à UB
+App -> UB: Notification demande d'aide
+UB -> App: Accepte la demande
+App -> UA: Confirmation acceptation
+
+@enduml
