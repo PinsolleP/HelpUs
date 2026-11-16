@@ -1,6 +1,6 @@
 from django.db import models
 
-MAX_LENGTH = 20
+MAX_LENGTH = 50
 """Maximum length of texts displayed in summary views."""
 
 
@@ -34,6 +34,22 @@ class Skills(models.Model):
             The text is limited to the length defined by MAX_LENGTH.
 
             Returns:
-                str: Shortened text of the choice.
+                str: Shortened text of the skills.
             """
         return text_excerpt(self.name, MAX_LENGTH)
+
+
+class Activities(models.Model):
+
+    description = models.CharField(max_length=MAX_LENGTH)
+
+    def __str__(self):
+        """
+            Returns a text representation of the Activities.
+
+            The text is limited to the length defined by MAX_LENGTH.
+
+            Returns:
+                str: Shortened text of the activities.
+            """
+        return text_excerpt(self.description, MAX_LENGTH)
