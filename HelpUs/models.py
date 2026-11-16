@@ -40,7 +40,9 @@ class Skills(models.Model):
 
 
 class Activities(models.Model):
-
+    """
+            Represents a specific activity for a skill.
+            """
     description = models.CharField(max_length=MAX_LENGTH)
 
     def __str__(self):
