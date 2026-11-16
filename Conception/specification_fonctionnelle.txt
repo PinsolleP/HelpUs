@@ -1,0 +1,39 @@
+Spécifications fonctionnelles — Application_HelpUs
+1. Objet
+L'application permet à des utilisateurs de pouvoir demander/échanger des compétences/services selon la disponibilité de chacuns. Elle est utilisée depuis ... et persiste les données dans une base db.Sqlite3.
+
+2. Acteurs
+Acteur : Description
+Visiteur : Personne non authentifiée pouvant créer son compte, afficher la liste de toutes les compétences.
+User : Personne authentifiée pouvant utiliser les outils de recherche de l'application, envoyer et recevoir des mails avec d'autres utilisateurs.
+Admin : Personne administrateur du site pouvant gérer les compétences ainsi que les utilisateurs
+
+3. Données métier
+User : personne possédant un nom, prénom, email, login , un mot de passe.
+Admin : personne possédant un login, un mot de passe.
+Skills : représente une compétence proposée par un utilisateur.
+Category : type de compténce. Une catégorie peut contenir plusieurs compétences.
+Activitées : détails d'une compétence.
+Availability : représente les jours de disponibilité des utilisateurs proposant leurs compétences
+
+4. Cas d'utilisation et critères d'acceptation
+UC04 — Gérer ces compétences
+Lors de la création du compte, l'utilisateur renseigne les compétences proposées. Il peut également ajouter/supprimer ou modifier une compétence de son profil
+
+UC05 — Gérer ces créneaux disponibles
+Lors de la création du compte, l'utilisateur renseigne les jours disponibles pour intervenir. Il peut également ajouter/supprimer ou modifier des créneaux de son profil
+
+UC06 - Afficher les créneaux disponibles
+L'utilisateur sélectionne un créneau souhaité, et des utilisateurs lui sont proposés.
+
+UC07 - Valider un créneau
+L'utilisateur a reçu une demande concernant sa compétence proposée. Il peut alors valider cette demande et bloquer ce créneau.
+
+UC08 - Afficher créneau d'un utilisateur
+Le visiteur peut sélectionner un utilisateur et accéder aux créneaux disponibles
+
+UC09 - Afficher la liste des compétences
+Le visiteur peut accéder a la liste de toutes les compétences proposées
+
+UC10 - Afficher les utilisateurs avec une compétence
+L'utilisateur selectionne une compétence, des utilisateurs lui sont proposés.
