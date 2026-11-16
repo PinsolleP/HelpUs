@@ -57,7 +57,7 @@ class Category {
 
 class Activities {
     -activitiesId : int
-    -name : String
+    -description : String
     +getactivitiesId() : int
     +getname() : String
     +setactivitiesId(int id) : void
