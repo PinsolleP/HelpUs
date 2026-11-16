@@ -20,12 +20,30 @@ def text_excerpt(text, max_length):
     return text[:max_length] + ('...' if len(text) > max_length else '')
 
 
+class Category(models.Model):
+    """
+        Represents a category of skill.
+        """
+    name = models.CharField(max_length=MAX_LENGTH)
+
+    def __str__(self):
+        """
+            Returns a text representation of the Activities.
+
+            The text is limited to the length defined by MAX_LENGTH.
+
+            Returns:
+                str: Shortened text of the activities.
+            """
+        return text_excerpt(self.name, MAX_LENGTH)
+
+
 class Skills(models.Model):
     """
         Represents a skill offered by a user.
         """
     name = models.CharField(max_length=MAX_LENGTH)
-    category = models.CharField(max_length=MAX_LENGTH)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         """
@@ -56,3 +74,6 @@ class Activities(models.Model):
                 str: Shortened text of the activities.
             """
         return text_excerpt(self.description, MAX_LENGTH)
+
+
+
