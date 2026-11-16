@@ -43,6 +43,7 @@ class Activities(models.Model):
     """
             Represents a specific activity for a skill.
             """
+    skills = models.ForeignKey(Skills, on_delete=models.CASCADE)
     description = models.CharField(max_length=MAX_LENGTH)
 
     def __str__(self):
