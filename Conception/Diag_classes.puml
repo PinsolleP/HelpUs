@@ -1,0 +1,84 @@
+@startuml Class Diagram
+skinparam Style strictuml
+
+class User {
+    -userId : int
+    -lastName : String
+    -firstName : String
+    -email : String
+    -login : String
+    -password : String
+    +getuserId() : int
+    +getlastName() : String
+    +getfirstName() : String
+    +getemail() : String
+    +getlogin() : String
+    +getpassword() : String
+    +setuserId(int id) : void
+    +setlastName(String lastName) : void
+    +setfirstName(String firstName) : void
+    +setemail(String email) : void
+    +setlogin(String login) : void
+    +setpassword(String password) : void
+}
+
+class Admin {
+    -adminId : int
+    -login : String
+    -password : String
+    +getadminId() : int
+    +getlogin() : String
+    +getpassword() : String
+    +setadminId(int id) : void
+    +setlogin(String login) : void
+    +setpassword(String password) : void
+}
+
+class Skills {
+    -skillsId : int
+    -name : String
+    -category : String
+    +getskillsId() : int
+    +getname() : String
+    +getcategory() : String
+    +setskillsId(int id) : void
+    +setname(String name) : void
+    +setcategory(int id) : void
+}
+
+class Category {
+    -categoryId : int
+    -name : String
+    +getcategoryId() : int
+    +getname() : String
+    +setcategoryId(int id) : void
+    +setname(String name) : void
+}
+
+class Activities {
+    -activitiesId : int
+    -name : String
+    +getactivitiesId() : int
+    +getname() : String
+    +setactivitiesId(int id) : void
+    +setname(String) : void
+}
+
+class Availability {
+    - idavailability : int
+    - day : String
+
+    + getidavailability() : int
+    + getday() : String
+    + setday(String jour) : void
+}
+
+Skills "0..*" -- "1" Category
+User "0..*" -- "0..*" Skills
+Activities "0..*" -- "1" Skills
+Admin "1" -- "*" User
+Admin "1" -- "*" Skills
+User "1" -- "0..*" Availability
+
+
+@enduml
