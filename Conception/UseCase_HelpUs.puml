@@ -13,7 +13,7 @@ rectangle "HelpUs" {
     usecase "Indiquer ses compétences" as UC4
     usecase "Indiquer ses créneaux" as UC5
     usecase "Afficher les créneaux disponible d'un autre utilisateur" as UC6
-
+    usecase "Afficher les utilisateurs avec une compétence" as UC10
     usecase "Valider un créneaux" as UC7
     usecase "Afficher créneaux d'un utilisateur" as UC8
     usecase "Afficher liste des compétences" as UC9
@@ -25,6 +25,7 @@ U -- UC4
 U -- UC5
 U -- UC6
 U -- UC7
+U -- UC10
 
 A -- UC1
 A -- UC2
@@ -41,6 +42,7 @@ UC4 ..> UC3 : <<include>>
 UC5 ..> UC3 : <<include>>
 UC6 ..> UC3 : <<include>>
 UC7 ..> UC3 : <<include>>
+UC10 ..> UC3 : <<include>>
 
 
 skinparam componentStyle uml2
