@@ -10,9 +10,9 @@ rectangle "HelpUs" {
     usecase "Gérer les compétences" as UC1
     usecase "Gérer les utilisateurs" as UC2
     usecase "S'authentifier" as UC3
-    usecase "Indiquer ses compétences" as UC4
-    usecase "Indiquer ses créneaux" as UC5
-    usecase "Afficher les créneaux disponible d'un autre utilisateur" as UC6
+    usecase "Gérer ses compétences" as UC4
+    usecase "Gérer ses créneaux" as UC5
+    usecase "Afficher les créneaux disponible" as UC6
     usecase "Afficher les utilisateurs avec une compétence" as UC10
     usecase "Valider un créneaux" as UC7
     usecase "Afficher créneaux d'un utilisateur" as UC8
