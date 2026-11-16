@@ -1,0 +1,54 @@
+@startuml
+left to right direction
+
+actor "Utilisateur" as U
+actor "Administrateur" as A
+actor "Visiteur" as V
+
+
+rectangle "HelpUs" {
+    usecase "Gérer les compétences" as UC1
+    usecase "Gérer les utilisateurs" as UC2
+    usecase "S'authentifier" as UC3
+    usecase "Indiquer ses compétences" as UC4
+    usecase "Indiquer ses créneaux" as UC5
+    usecase "Afficher les créneaux disponible d'un autre utilisateur" as UC6
+
+    usecase "Valider un créneaux" as UC7
+    usecase "Afficher créneaux d'un utilisateur" as UC8
+    usecase "Afficher liste des compétences" as UC9
+
+
+}
+
+U -- UC4
+U -- UC5
+U -- UC6
+U -- UC7
+
+A -- UC1
+A -- UC2
+A -- UC9
+
+V -- UC8
+V -- UC9
+
+
+
+UC2 ..> UC3 : <<include>>
+UC1 ..> UC3 : <<include>>
+UC4 ..> UC3 : <<include>>
+UC5 ..> UC3 : <<include>>
+UC6 ..> UC3 : <<include>>
+UC7 ..> UC3 : <<include>>
+
+
+skinparam componentStyle uml2
+left to right direction
+
+node "<<commentaires>>" {
+note "Gérer = Ajouter modifier supprimer" as n1
+}
+
+
+@enduml
