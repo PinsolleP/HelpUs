@@ -18,3 +18,22 @@ def text_excerpt(text, max_length):
             str: Full text or snippet followed by ellipsis.
         """
     return text[:max_length] + ('...' if len(text) > max_length else '')
+
+
+class Skills(models.Model):
+    """
+        Represents a skill offered by a user.
+        """
+    name = models.CharField(max_length=MAX_LENGTH)
+    category = models.CharField(max_length=MAX_LENGTH)
+
+    def __str__(self):
+        """
+            Returns a text representation of the skills.
+
+            The text is limited to the length defined by MAX_LENGTH.
+
+            Returns:
+                str: Shortened text of the choice.
+            """
+        return text_excerpt(self.name, MAX_LENGTH)
