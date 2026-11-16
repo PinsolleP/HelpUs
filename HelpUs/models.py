@@ -1,5 +1,7 @@
 from django.db import models
 
+from HelpUs.static.constant import Day_choices
+
 MAX_LENGTH = 50
 """Maximum length of texts displayed in summary views."""
 
@@ -76,4 +78,10 @@ class Activities(models.Model):
         return text_excerpt(self.description, MAX_LENGTH)
 
 
+class Availability(models.Model):
+    day = models.CharField(
+        max_length=MAX_LENGTH,
+        choices=Day_choices,
+        default=Day_choices[0][0]
+    )
 
