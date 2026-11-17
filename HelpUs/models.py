@@ -2,6 +2,7 @@ from django.db import models
 
 from HelpUs.static.constant import Day_choices
 
+
 MAX_LENGTH = 50
 """Maximum length of texts displayed in summary views."""
 
