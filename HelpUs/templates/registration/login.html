@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Connexion
+{% endblock %}
+
+{% block main %}
+
+<h1>Connexion</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Se connecter</button>
+</form>
+
+<p>
+    <a href="{% url 'HelpUs:index' %}">
+        Continuer en tant que visiteur
+    </a>
+</p>
+
+{% endblock %}
