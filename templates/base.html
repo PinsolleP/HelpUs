@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}HelpUs - développons le partage{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'HelpUs/style.css' %}">
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+    <header>
+        {% if user.is_authenticated %}
+            <p>Bonjour {{user.username}}</p>
+
+        {% if user.is_staff %}
+            <a href="{% url 'admin:index' %}">Administration</a>
+        {% endif %}
+
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Se déconnecter</button>
+            </form>
+
+        {% else %}
+            <a href="{% url 'login' %}?next={% url 'HelpUs:home' %}">Connexion</a>
+        {% endif %}
+
+        {% block header %}
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block main %}
+        {% endblock %}
+    </main>
+    <footer>
+    </footer>
+</body>
+</html>
