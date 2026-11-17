@@ -1,7 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 from HelpUs.static.constant import Day_choices
-
 
 MAX_LENGTH = 50
 """Maximum length of texts displayed in summary views."""
@@ -23,30 +23,11 @@ def text_excerpt(text, max_length):
     return text[:max_length] + ('...' if len(text) > max_length else '')
 
 
-class Category(models.Model):
-    """
-        Represents a category of skill.
-        """
-    name = models.CharField(max_length=MAX_LENGTH)
-
-    def __str__(self):
-        """
-            Returns a text representation of the Activities.
-
-            The text is limited to the length defined by MAX_LENGTH.
-
-            Returns:
-                str: Shortened text of the activities.
-            """
-        return text_excerpt(self.name, MAX_LENGTH)
-
-
 class Skills(models.Model):
     """
         Represents a skill offered by a user.
         """
     name = models.CharField(max_length=MAX_LENGTH)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         """
@@ -86,3 +67,18 @@ class Availability(models.Model):
         default=Day_choices[0][0]
     )
 
+    def __str__(self):
+        return self.day
+
+
+User = get_user_model()
+
+
+class Post(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_author')
+    skills = models.ForeignKey(Skills, on_delete=models.CASCADE, related_name='post_skills',null=True)
+    activities = models.ForeignKey(Activities, on_delete=models.CASCADE, related_name='post_activities',null=True)
+    availability = models.ForeignKey(Availability, on_delete=models.CASCADE, related_name='post_availability',null=True)
+
+    def __str__(self):
+        return f"{self.author} - {self.skills} | {self.activities} | {self.availability}"
