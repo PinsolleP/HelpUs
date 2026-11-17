@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Toutes les compétences
+{% endblock %}
+
+{% block main %}
+<h1>Liste de toutes les compétences</h1>
+<p>
+    <a href="{% url 'HelpUs:index' %}">Retour à l'accueil</a>
+</p>
+<ul>
+{% for skill in skills_list %}
+    <li>
+        {{ skill.name }}
+    </li>
+    {% empty %}
+        <li>Aucune compétence disponible.</li>
+{% endfor %}
+</ul>
+{% endblock %}
