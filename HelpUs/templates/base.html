@@ -14,7 +14,7 @@
             <p>Bonjour {{user.username}}</p>
 
         {% if user.is_staff %}
-            <a href="{% url 'admin:home' %}">Administration</a>
+            <a href="{% url 'admin:index' %}">Administration</a>
         {% endif %}
 
             <form method="post" action="{% url 'logout' %}">
@@ -23,7 +23,7 @@
             </form>
 
         {% else %}
-            <a href="{% url 'login' %}?next={% url 'HelpUs:home' %}">Connexion</a>
+            <a href="{% url 'login' %}?next={% url 'HelpUs:index' %}">Connexion</a>
         {% endif %}
 
         {% block header %}
