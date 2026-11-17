@@ -18,4 +18,6 @@ app_name = "HelpUs"
 
 # Déclaration des routes de l'application.
 urlpatterns = [
+    # Page d'accueil : affiche les cinq dernières questions.
+    path("", views.Home.as_view(), name="index"),
 ]
