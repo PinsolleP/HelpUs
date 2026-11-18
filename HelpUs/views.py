@@ -42,3 +42,19 @@ class AllSkillsView(generic.ListView):
                 QuerySet: Set of existing skills.
              """
         return Skills.objects.all()
+
+
+class DetailView(generic.DetailView):
+    """
+        Displays the details of a selected skill.
+
+        Uses the Skills model to automatically retrieve the object corresponding to the ID passed in the URL.
+
+        Attributes:
+            model: Model used to retrieve the skill.
+            template_name (str): Path to the detail template.
+            context_object_name (str): Name of the variable containing
+        """
+    model = Skills
+    template_name = "HelpUs/detail.html"
+    context_object_name = "skills"
