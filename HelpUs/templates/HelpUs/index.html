@@ -3,6 +3,7 @@
 
 
 {% block title %}
+    Accueil
 {% endblock %}
 
 {% block main %}
@@ -23,4 +24,50 @@
 {% else %}
     <p>Aucune compétence n'est disponible pour le moment.</p>
 {% endif %}
+
+<h2>Les membres</h2>
+
+<div class="posts-container">
+
+    {% for post in posts %}
+
+        <div class="post-card">
+
+            <h3>{{ post.author.username }}</h3>
+
+            <h4>Compétences</h4>
+            <ul>
+                {% for skill in post.skills.all %}
+                    <li>{{ skill.name }}</li>
+                {% empty %}
+                    <li>Aucune compétence renseignée</li>
+                {% endfor %}
+            </ul>
+
+            <h4>Activités</h4>
+            <ul>
+                {% for activity in post.activities.all %}
+                    <li>{{ activity.description }}</li>
+                {% empty %}
+                    <li>Aucune activité renseignée</li>
+                {% endfor %}
+            </ul>
+
+            <h4>Disponibilités</h4>
+            <ul>
+                {% for availability in post.availability.all %}
+                    <li>{{ availability.day }}</li>
+                {% empty %}
+                    <li>Aucune disponibilité renseignée</li>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+    {% empty %}
+        <p>Aucun membre pour le moment.</p>
+    {% endfor %}
+
+</div>
+
 {% endblock %}
