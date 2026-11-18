@@ -3,18 +3,21 @@
 
 
 {% block title %}
-Liste des compétences
 {% endblock %}
 
 {% block main %}
 <p>
     <a href="{% url 'HelpUs:all'%}">Voir toutes les compétences</a><br><br>
-    Compétences Proposées
+    Compétences Proposées récemment
 </p>
     {% if latest_skills_list %}
     <ul>
     {% for skill in latest_skills_list %}
-        <p>{{ skill.name }}</p>
+        <li>
+            <a href="{% url 'HelpUs:detail' skill.id %}">
+                {{ skill.name }}
+            </a>
+        </li>
         {% endfor %}
     </ul>
 {% else %}
