@@ -1,26 +1,26 @@
 """
-Configuration des URL de l'application HelpUs.
+Configuration of the HelpUs app URLs.
 
-Ce module définit les routes accessibles pour l'application
-et associe chaque URL à une vue chargée de traiter la requête.
+This module defines the routes accessible for the app
+and links each URL to a view responsible for handling the request.
 
-Les noms de routes sont regroupés dans l'espace de noms "HelpUs",
-ce qui permet de les appeler sous la forme "HelpUs:nom_de_route".
+The route names are grouped in the "HelpUs" namespace,
+which allows you to call them like "HelpUs:route_name".
 """
 from django.urls import path
 
 from . import views
 
-# Espace de noms de l'application.
-# Permet de distinguer les routes de HelpUS de celles des autres applications.
-
 app_name = "HelpUs"
 
-# Déclaration des routes de l'application.
+# Declaration of the application's path.
 urlpatterns = [
-    # Page d'accueil : affiche les dix dernières compétences.
+    # Home page: shows the last eight skills.
     path("", views.IndexView.as_view(), name="index"),
 
-    # Affichage de l'ensemble des compétences.
+    # Display of all skills.
     path("all/", views.AllSkillsView.as_view(), name="all"),
+
+    # Detail of available skills.
+    path("<int:pk>/", views.DetailView.as_view(), name="detail"),
 ]
