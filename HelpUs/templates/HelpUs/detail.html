@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ skills.name }}
+{% endblock %}
+
+
+{% block main %}
+<h1>{{ skills.name }}</h1>
+    {% for activity in skills.activities_set.all %}
+    <p>{{ activity.description }}</p>
+{% empty %}
+    <p>Aucune activité disponible pour cette compétence.</p>
+{% endfor %}
+<p>
+    <a href="{% url 'HelpUs:index' %}">Retour à l'accueil</a>
+</p>
+{% endblock %}
