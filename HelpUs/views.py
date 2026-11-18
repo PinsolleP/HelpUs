@@ -1,6 +1,9 @@
+from django.contrib.auth import forms, login
+from django.shortcuts import render, redirect
 from django.views import generic
 
-from HelpUs.models import Skills
+from HelpUs.config import settings
+from HelpUs.models import Skills, Post
 
 
 class IndexView(generic.ListView):
@@ -20,6 +23,19 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         """Return all skills."""
         return Skills.objects.order_by("name")[:8]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["posts"] = Post.objects.select_related(
+            "author"
+        ).prefetch_related(  # optimise la récupération des relations multiples.
+            "skills",
+            "activities",
+            "availability"
+        )
+
+        return context
 
 
 class AllSkillsView(generic.ListView):
