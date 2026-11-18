@@ -75,10 +75,27 @@ User = get_user_model()
 
 
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='post_author')
-    skills = models.ForeignKey(Skills, on_delete=models.CASCADE, related_name='post_skills',null=True)
-    activities = models.ForeignKey(Activities, on_delete=models.CASCADE, related_name='post_activities',null=True)
-    availability = models.ForeignKey(Availability, on_delete=models.CASCADE, related_name='post_availability',null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    skills = models.ManyToManyField(Skills, related_name='posts', blank=True)
+    activities = models.ManyToManyField(Activities, related_name='posts', blank=True)
+    availability = models.ManyToManyField(Availability, related_name='posts', blank=True)
 
     def __str__(self):
-        return f"{self.author} - {self.skills} | {self.activities} | {self.availability}"
+        username = self.author.username
+
+        skill_names = ", ".join(
+            skill.name for skill in self.skills.all()
+        ) or "Aucune compétence"
+
+        activity_names = ", ".join(
+            activity.description for activity in self.activities.all()
+        ) or "Aucune activité"
+
+        availability_days = ", ".join(
+            availability.day for availability in self.availability.all()
+        ) or "Non spécifié"
+
+        return (
+            f"{username} - {skill_names} | "
+            f"{activity_names} | {availability_days}"
+        )
