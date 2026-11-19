@@ -8,7 +8,7 @@
 
 {% block main %}
 <p>
-    Compétences Proposées récemment
+    <h1>Compétences Proposées récemment</h1>
 </p>
     {% if latest_skills_list %}
     <ul>
@@ -26,47 +26,30 @@
 
 <h2>Les membres</h2>
 
-<div class="posts-container">
-
-    {% for post in posts %}
-
-        <div class="post-card">
-
-            <h3>{{ post.author.username }}</h3>
-
-            <h4>Compétences</h4>
-            <ul>
-                {% for skill in post.skills.all %}
-                    <li>{{ skill.name }}</li>
-                {% empty %}
-                    <li>Aucune compétence renseignée</li>
-                {% endfor %}
-            </ul>
-
-            <h4>Activités</h4>
-            <ul>
-                {% for activity in post.activities.all %}
-                    <li>{{ activity.description }}</li>
-                {% empty %}
-                    <li>Aucune activité renseignée</li>
-                {% endfor %}
-            </ul>
-
-            <h4>Disponibilités</h4>
-            <ul>
-                {% for availability in post.availability.all %}
-                    <li>{{ availability.day }}</li>
-                {% empty %}
-                    <li>Aucune disponibilité renseignée</li>
-                {% endfor %}
-            </ul>
-
-        </div>
-
+{% for post in posts %}
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">{{ post.author.username }}</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+    {% for skill in post.skills.all %}
+        <li class="list-group-item">{{ skill.name }}</li>
+        {% endfor %}
+    {% for activity in post.activities.all %}
+        <li class="list-group-item">{{ activity.description }}</li>
+        {% endfor %}
+    {% for availability in post.availability.all %}
+        <li class="list-group-item">{{ availability.day }}</li>
+        {% endfor %}
+  </ul>
     {% empty %}
         <p>Aucun membre pour le moment.</p>
     {% endfor %}
 
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+  </div>
 </div>
 
 {% endblock %}
