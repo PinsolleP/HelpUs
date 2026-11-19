@@ -150,3 +150,21 @@ def signup_page(request):
         'HelpUs/register.html',
         {'form': form}
     )
+
+
+class FilterSkillView(generic.ListView):
+    model = Post
+    template_name = "HelpUs/index.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return Post.objects.filter(
+            skills__id=self.kwargs["skill_id"]
+        ).distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["latest_skills_list"] = Skills.objects.order_by("name")
+
+        return context
