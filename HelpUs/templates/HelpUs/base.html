@@ -27,7 +27,14 @@
                 <button type="submit">Se déconnecter</button>
           </form>
             {% else %}
-                <a class="nav-item nav-link text-white" href="{% url 'login' %}?next={% url 'HelpUs:index' %}">Connexion</a>
+                <a class="nav-item nav-link text-white"
+                    href="{% url 'HelpUs:signup' %}">
+                        Créer un compte
+               </a>
+                <a class="nav-item nav-link text-white"
+               href="{% url 'login' %}">
+                Se connecter
+                </a>
             {% endif %}
         </a>
         {% if user.is_staff %}
