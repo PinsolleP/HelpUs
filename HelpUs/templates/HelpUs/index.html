@@ -24,6 +24,25 @@
     <p>Aucune compétence n'est disponible pour le moment.</p>
 {% endif %}
 
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Compétences <span class="caret"></span>
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+       <a class="dropdown-item" href="{% url 'HelpUs:index' %}">
+            All
+        </a>
+      {% for skill in latest_skills_list %}
+        <a class="dropdown-item"
+               href="{% url 'HelpUs:filter_skill' skill.id %}">
+                {{ skill.name }}
+        </a>
+      {% empty %}
+        <span>Aucune compétence disponible</span>
+      {% endfor %}
+  </div>
+</div>
+
 <h2 class="mb-3">Les membres</h2>
 
 
