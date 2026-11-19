@@ -26,4 +26,7 @@ urlpatterns = [
 
     # Register page
     path('signup/', views.signup_page, name="signup"),
+
+    # Filter page by skills
+    path('competence/<int:skill_id>/', views.FilterSkillView.as_view(), name="filter_skill"),
 ]
