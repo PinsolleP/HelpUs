@@ -1,9 +1,10 @@
-from django.contrib.auth import forms, login
+from django.db import transaction
+from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.views import generic
 
-from HelpUs.config import settings
-from HelpUs.models import Skills, Post
+from HelpUs.forms import RegisterForm
+from HelpUs.models import Skills, Post, Activities
 
 
 class IndexView(generic.ListView):
@@ -74,3 +75,78 @@ class DetailView(generic.DetailView):
     model = Skills
     template_name = "HelpUs/detail.html"
     context_object_name = "skills"
+
+
+def signup_page(request):
+    form = RegisterForm()
+
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            with transaction.atomic():
+
+                # Création du compte utilisateur
+                user = form.save()
+
+                # Création du profil
+                post = Post.objects.create(author=user)
+
+                # Récupération des compétences sélectionnées
+                skills = list(form.cleaned_data['skills'])
+
+                # Création d'une nouvelle compétence si nécessaire
+                new_skill_name = form.cleaned_data['new_skill'].strip()
+
+                new_skill = None
+
+                if new_skill_name:
+                    new_skill, created = Skills.objects.get_or_create(
+                        name=new_skill_name
+                    )
+                    skills.append(new_skill)
+
+                # Association des compétences au profil
+                post.skills.set(skills)
+
+                # Récupération des activités sélectionnées
+                activities = list(form.cleaned_data['activities'])
+
+                # Création d'une nouvelle activité si nécessaire
+                new_activity_description = form.cleaned_data['new_activity'].strip()
+
+                if new_activity_description:
+
+                    activity_skill = (
+                            new_skill
+                            or form.cleaned_data['activity_skill']
+                    )
+
+                    if activity_skill:
+                        new_activity, created = Activities.objects.get_or_create(
+                            skills=activity_skill,
+                            description=new_activity_description
+                        )
+
+                        activities.append(new_activity)
+
+                        # Ajouter aussi la compétence au profil
+                        post.skills.add(activity_skill)
+
+                # Association des activités au profil
+                post.activities.set(activities)
+
+                # Association des disponibilités
+                post.availability.set(
+                    form.cleaned_data['availability']
+                )
+
+            login(request, user)
+
+            return redirect('HelpUs:index')
+
+    return render(
+        request,
+        'HelpUs/register.html',
+        {'form': form}
+    )
