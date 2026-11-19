@@ -9,7 +9,7 @@ from HelpUs.models import Skills, Post, Activities
 
 class IndexView(generic.ListView):
     """
-        Displays the eight most recently published skills.
+        Displays the eight published skills by order name.
 
         Uses the Skills model and the HelpUs/index.html template.
 
@@ -34,7 +34,7 @@ class IndexView(generic.ListView):
             "skills",
             "activities",
             "availability"
-        )
+        ).order_by("id")[:6]
 
         return context
 
