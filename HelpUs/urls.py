@@ -23,4 +23,7 @@ urlpatterns = [
 
     # Detail of available skills.
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
+
+    # Register page
+    path('signup/', views.signup_page, name="signup"),
 ]
