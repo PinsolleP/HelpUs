@@ -1,11 +1,8 @@
 """
-Configuration of the HelpUs app URLs.
+Defines the URL routes for the HelpUs application.
 
-This module defines the routes accessible for the app
-and links each URL to a view responsible for handling the request.
-
-The route names are grouped in the "HelpUs" namespace,
-which allows you to call them like "HelpUs:route_name".
+Maps each URL to its corresponding view.
+Uses the HelpUs namespace to identify application routes.
 """
 from django.urls import path
 
@@ -15,18 +12,18 @@ app_name = "HelpUs"
 
 # Declaration of the application's path.
 urlpatterns = [
-    # Home page: shows the last eight skills.
+    # Homepage displaying the latest skills.
     path("", views.IndexView.as_view(), name="index"),
 
-    # Display of all skills.
+    # Displays all available skills.
     path("all/", views.AllSkillsView.as_view(), name="all"),
 
-    # Detail of available skills.
+    # Displays the details of a selected skill.
     path("<int:pk>/", views.DetailView.as_view(), name="detail"),
 
-    # Register page
+    # User registration page.
     path('signup/', views.signup_page, name="signup"),
 
-    # Filter page by skills
+    # Displays posts filtered by skill.
     path('competence/<int:skill_id>/', views.FilterSkillView.as_view(), name="filter_skill"),
 ]
