@@ -22,15 +22,21 @@ class IndexView(generic.ListView):
     context_object_name = "latest_skills_list"
 
     def get_queryset(self):
-        """Return all skills."""
+        """Returns the first eight skills ordered by name."""
         return Skills.objects.order_by("name")[:8]
 
     def get_context_data(self, **kwargs):
+        """
+            Adds the six latest posts and their related data to the context.
+
+            Returns:
+                dict: Updated template context.
+            """
         context = super().get_context_data(**kwargs)
 
         context["posts"] = Post.objects.select_related(
             "author"
-        ).prefetch_related(  # optimise la récupération des relations multiples.
+        ).prefetch_related(  # optimize the retrieval of multiple relationships.
             "skills",
             "activities",
             "availability"
@@ -78,6 +84,18 @@ class DetailView(generic.DetailView):
 
 
 def signup_page(request):
+    """
+        Handles user registration and profile creation.
+
+        Saves the user and profile data in a single transaction.
+        Logs in the user after successful registration.
+
+        Args:
+            request: HTTP request received from the browser.
+
+        Returns:
+            HttpResponse: Redirects to the homepage or displays the registration form.
+        """
     form = RegisterForm()
 
     if request.method == "POST":
@@ -86,16 +104,16 @@ def signup_page(request):
         if form.is_valid():
             with transaction.atomic():
 
-                # Création du compte utilisateur
+                # Creating the user account
                 user = form.save()
 
-                # Création du profil
+                # Creating the profile
                 post = Post.objects.create(author=user)
 
-                # Récupération des compétences sélectionnées
+                # Retrieving the selected skills
                 skills = list(form.cleaned_data['skills'])
 
-                # Création d'une nouvelle compétence si nécessaire
+                # Creating a new skill if necessary
                 new_skill_name = form.cleaned_data['new_skill'].strip()
 
                 new_skill = None
@@ -106,13 +124,13 @@ def signup_page(request):
                     )
                     skills.append(new_skill)
 
-                # Association des compétences au profil
+                # Matching skills to the profile
                 post.skills.set(skills)
 
-                # Récupération des activités sélectionnées
+                # Retrieving the selected activities
                 activities = list(form.cleaned_data['activities'])
 
-                # Création d'une nouvelle activité si nécessaire
+                # Creating a new activity if necessary
                 new_activity_description = form.cleaned_data['new_activity'].strip()
 
                 if new_activity_description:
@@ -130,13 +148,13 @@ def signup_page(request):
 
                         activities.append(new_activity)
 
-                        # Ajouter aussi la compétence au profil
+                        # Also add the skill to the profile
                         post.skills.add(activity_skill)
 
-                # Association des activités au profil
+                # Associating activities with the profile
                 post.activities.set(activities)
 
-                # Association des disponibilités
+                # Association of Availabilities
                 post.availability.set(
                     form.cleaned_data['availability']
                 )
@@ -153,16 +171,29 @@ def signup_page(request):
 
 
 class FilterSkillView(generic.ListView):
+    """Displays posts filtered by a selected skill."""
     model = Post
     template_name = "HelpUs/index.html"
     context_object_name = "posts"
 
     def get_queryset(self):
+        """
+            Returns posts associated with the selected skill.
+
+            Returns:
+                QuerySet: Posts matching the selected skill.
+            """
         return Post.objects.filter(
             skills__id=self.kwargs["skill_id"]
         ).distinct()
 
     def get_context_data(self, **kwargs):
+        """
+            Adds the complete list of skills to the template context.
+
+            Returns:
+                dict: Updated template context.
+            """
         context = super().get_context_data(**kwargs)
 
         context["latest_skills_list"] = Skills.objects.order_by("name")
