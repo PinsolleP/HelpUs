@@ -37,15 +37,15 @@
                href="{% url 'HelpUs:filter_skill' skill.id %}">
                 {{ skill.name }}
         </a>
+
       {% empty %}
         <span>Aucune compétence disponible</span>
       {% endfor %}
   </div>
 </div>
 
+{% if user.is_authenticated %}
 <h2 class="mb-3">Les membres</h2>
-
-
 <div class="container mt-5 mb-5">
     <div class="row">
         {% for post in posts %}
@@ -74,7 +74,11 @@
     {% empty %}
         <p>Aucun membre pour le moment.</p>
     {% endfor %}
+
     </div>
+    {% else %}
+            <a class="dropdown-item" href="{% url 'HelpUs:index' %}">
+    {% endif %}
 </div>
 
 {% endblock %}
