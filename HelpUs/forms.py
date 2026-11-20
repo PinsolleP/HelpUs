@@ -6,6 +6,11 @@ from .models import Skills, Activities, Availability
 
 
 class RegisterForm(UserCreationForm):
+    """
+        Handles user registration and profile information.
+
+        Allows users to select or add skills, activities and availability.
+        """
     skills = forms.ModelMultipleChoiceField(
         queryset=Skills.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -50,6 +55,14 @@ class RegisterForm(UserCreationForm):
         fields = ('username', 'email', 'first_name', 'last_name')
 
     def clean(self):
+        """
+           Validates the form data.
+
+           Checks that a new activity has an associated skill.
+
+           Returns:
+               dict: Validated form data.
+           """
         cleaned_data = super().clean()
 
         new_activity = cleaned_data.get('new_activity', '').strip()
