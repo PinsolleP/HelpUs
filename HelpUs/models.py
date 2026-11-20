@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from HelpUs.static.constant import Day_choices
@@ -26,7 +25,7 @@ def text_excerpt(text, max_length):
 
 class Skills(models.Model):
     """
-        Represents a skill offered by a user.
+        Represents a skill available in the application.
         """
     name = models.CharField(max_length=MAX_LENGTH)
 
@@ -62,6 +61,7 @@ class Activities(models.Model):
 
 
 class Availability(models.Model):
+    """Represents an available day for an activity."""
     day = models.CharField(
         max_length=MAX_LENGTH,
         choices=Day_choices,
@@ -69,6 +69,7 @@ class Availability(models.Model):
     )
 
     def __str__(self):
+        """Returns the availability day."""
         return self.day
 
 
@@ -76,12 +77,17 @@ User = get_user_model()
 
 
 class Post(models.Model):
+    """Represents a user's post containing skills, activities and availability."""
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     skills = models.ManyToManyField(Skills, related_name='posts', blank=True)
     activities = models.ManyToManyField(Activities, related_name='posts', blank=True)
     availability = models.ManyToManyField(Availability, related_name='posts', blank=True)
 
     def __str__(self):
+        """
+            Returns a summary of the post.
+            Includes the author's username, skills, activities and availability.
+            """
         username = self.author.username
 
         skill_names = ", ".join(
