@@ -5,23 +5,33 @@ participant "Utilisateur A" as UA
 participant "Application" as App
 participant "Utilisateur B" as UB
 participant "Base de données" as DB
+activate UA
 
 UA -> App: Connexion avec identifiants
+activate DB
+activate App
 App -> DB: Vérifie identifiants
 DB --> App: Validation OK
-App -> UA: Confirmation connexion
+deactivate DB
+App --> UA: Confirmation connexion
 
 UA -> App: Recherche aide pour compétence
+activate DB
 App -> DB: Trouve utilisateurs disponibles
 DB --> App: Liste utilisateurs
-App -> UA: Affiche profil de UB
+deactivate DB
+App --> UA: Affiche profil de UB
 
 UA -> App: recherche créneaux disponibles
+activate DB
 App -> DB: Vérifie créneaux disponibles
 DB --> App: Créneaux disponibles
+App --> UA: Liste créneaux disponibles
+deactivate DB
 UA -> App: Envoie email à UB
+activate UB
 App -> UB: Notification demande d'aide
 UB -> App: Accepte la demande
-App -> UA: Confirmation acceptation
+App --> UA: Confirmation acceptation
 
 @enduml
