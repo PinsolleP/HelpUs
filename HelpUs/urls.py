@@ -36,4 +36,11 @@ urlpatterns = [
         views.HelpRequestDetailView.as_view(),
         name="help_request_detail"
     ),
+
+    # Registers a volunteer for a help request.
+    path(
+        'help-request/<int:pk>/volunteer/',
+        views.volunteer_for_help,
+        name="volunteer_for_help"
+    ),
 ]
