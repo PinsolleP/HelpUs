@@ -40,7 +40,7 @@ class HelpRequestAdmin(admin.ModelAdmin):
     list_display = (
         'requester',
         'skill',
-        'availability',
+        'display_availability',
         'volunteer',
         'created_at',
     )
@@ -53,6 +53,12 @@ class HelpRequestAdmin(admin.ModelAdmin):
     )
     ordering = ('-created_at',)
     readonly_fields = ('created_at',)
+
+    @admin.display(description="Disponibilités")
+    def display_availability(self, obj):
+        return ", ".join(
+            availability.day for availability in obj.availability.all()
+        )
 
 
 admin.site.register(Skills)
