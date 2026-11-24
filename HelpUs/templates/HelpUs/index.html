@@ -86,6 +86,12 @@
                         </p>
 
                     </div>
+                    <div class="card-body">
+                        <a href="{% url 'HelpUs:help_request_detail' help_request.pk %}"
+                        class="btn btn-primary">
+                            Voir la demande
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -95,6 +101,7 @@
 
     </div>
 </div>
+
 
 {% if user.is_authenticated %}
 <h2 class="mb-3">Les membres</h2>
