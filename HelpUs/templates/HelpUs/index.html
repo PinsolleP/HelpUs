@@ -53,6 +53,49 @@
   </div>
 </div>
 
+<h2 class="mb-3 mt-5">Les demandes d'aide</h2>
+
+<div class="container mb-5">
+    <div class="row">
+
+        {% for help_request in help_requests %}
+            <div class="col-lg-4 mb-3">
+                <div class="card shadow">
+                    <div class="card-body">
+
+                        <h5 class="card-title">
+                            {{ help_request.skill.name }}
+                        </h5>
+
+                        <p class="card-text">
+                            {{ help_request.activity_description }}
+                        </p>
+
+                        <p>
+                            <strong>Disponibilités :</strong>
+                            {% for availability in help_request.availability.all %}
+                                {{ availability.day }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                                Non renseignées
+                            {% endfor %}
+                        </p>
+
+                        <p>
+                            <strong>Demandeur :</strong>
+                            {{ help_request.requester.username }}
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+        {% empty %}
+            <p>Aucune demande d'aide pour le moment.</p>
+        {% endfor %}
+
+    </div>
+</div>
+
 {% if user.is_authenticated %}
 <h2 class="mb-3">Les membres</h2>
 <div class="container mt-5 mb-5">
