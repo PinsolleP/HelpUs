@@ -2,8 +2,9 @@ from django.db import transaction
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 
-from HelpUs.forms import RegisterForm
+from HelpUs.forms import RegisterForm, HelpRequestForm
 from HelpUs.models import Skills, Post, Activities
 
 
@@ -199,3 +200,29 @@ class FilterSkillView(generic.ListView):
         context["latest_skills_list"] = Skills.objects.order_by("name")
 
         return context
+
+
+@login_required
+def create_help_request(request):
+    """
+    Handles the creation of a help request.
+    Associates the request with the currently logged-in user.
+    """
+    if request.method == "POST":
+        form = HelpRequestForm(request.POST)
+
+        if form.is_valid():
+            help_request = form.save(commit=False)
+            help_request.requester = request.user
+            help_request.save()
+            form.save_m2m()
+
+            return redirect('HelpUs:index')
+    else:
+        form = HelpRequestForm()
+
+    return render(
+        request,
+        'HelpUs/help_request_form.html',
+        {'form': form}
+    )
