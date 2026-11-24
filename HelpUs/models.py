@@ -125,9 +125,8 @@ class HelpRequest(models.Model):
 
     activity_description = models.TextField()
 
-    availability = models.ForeignKey(
+    availability = models.ManyToManyField(
         Availability,
-        on_delete=models.PROTECT,
         related_name="help_requests"
     )
 
