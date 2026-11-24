@@ -1,6 +1,5 @@
 from django.db import transaction
 from django.contrib.auth import login
-from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -182,7 +181,12 @@ def signup_page(request):
 
 
 class FilterSkillView(generic.ListView):
-    """Displays posts filtered by a selected skill."""
+    """
+    Displays posts associated with a selected skill.
+
+    Provides the complete list of skills to the template
+    to allow users to change the active filter.
+    """
     model = Post
     template_name = "HelpUs/index.html"
     context_object_name = "posts"
@@ -215,8 +219,10 @@ class FilterSkillView(generic.ListView):
 @login_required
 def create_help_request(request):
     """
-    Handles the creation of a help request.
-    Associates the request with the currently logged-in user.
+    Handles the creation of a new help request.
+
+    Associates the request with the currently logged-in user
+    and saves the related form data.
     """
     if request.method == "POST":
         form = HelpRequestForm(request.POST)
@@ -241,7 +247,9 @@ def create_help_request(request):
 class HelpRequestDetailView(generic.DetailView):
     """
     Displays the details of a selected help request.
-    Uses the HelpRequest model and the HelpUs/help_request_detail.html template.
+
+    Uses the HelpRequest model to retrieve the object
+    identified by the primary key in the URL.
     """
     model = HelpRequest
     template_name = "HelpUs/help_request_detail.html"
@@ -253,6 +261,10 @@ class HelpRequestDetailView(generic.DetailView):
 def volunteer_for_help(request, pk):
     """
     Registers the connected user as a volunteer for a help request.
+
+    Prevents users from volunteering for their own requests.
+    Uses a conditional database update to prevent multiple
+    users from being assigned to the same request simultaneously.
     """
     with transaction.atomic():
         help_request = get_object_or_404(
