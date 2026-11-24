@@ -233,3 +233,13 @@ def create_help_request(request):
         'HelpUs/help_request_form.html',
         {'form': form}
     )
+
+
+class HelpRequestDetailView(generic.DetailView):
+    """
+    Displays the details of a selected help request.
+    Uses the HelpRequest model and the HelpUs/help_request_detail.html template.
+    """
+    model = HelpRequest
+    template_name = "HelpUs/help_request_detail.html"
+    context_object_name = "help_request"
