@@ -3,6 +3,9 @@ from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
+from django.contrib import messages
 
 from HelpUs.forms import RegisterForm, HelpRequestForm
 from HelpUs.models import Skills, Post, Activities, HelpRequest
@@ -243,3 +246,39 @@ class HelpRequestDetailView(generic.DetailView):
     model = HelpRequest
     template_name = "HelpUs/help_request_detail.html"
     context_object_name = "help_request"
+
+
+@login_required
+@require_POST
+def volunteer_for_help(request, pk):
+    """
+    Registers the connected user as a volunteer for a help request.
+    """
+    help_request = get_object_or_404(HelpRequest, pk=pk)
+
+    if request.user == help_request.requester:
+        messages.warning(
+            request,
+            "Vous ne pouvez pas proposer votre aide à votre propre demande."
+        )
+    else:
+        updated = HelpRequest.objects.filter(
+            pk=pk,
+            volunteer__isnull=True
+        ).update(volunteer=request.user)
+
+        if updated == 0:
+            messages.warning(
+                request,
+                "Cette demande possède déjà un bénévole."
+            )
+        else:
+            messages.success(
+                request,
+                "Votre proposition d'aide a bien été enregistrée."
+            )
+
+    return redirect(
+        "HelpUs:help_request_detail",
+        pk=help_request.pk
+    )
