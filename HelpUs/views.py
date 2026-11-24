@@ -5,7 +5,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required
 
 from HelpUs.forms import RegisterForm, HelpRequestForm
-from HelpUs.models import Skills, Post, Activities
+from HelpUs.models import Skills, Post, Activities, HelpRequest
 
 
 class IndexView(generic.ListView):
@@ -42,6 +42,13 @@ class IndexView(generic.ListView):
             "activities",
             "availability"
         ).order_by("id")[:6]
+
+        context["help_requests"] = HelpRequest.objects.select_related(
+            "requester",
+            "skill"
+        ).prefetch_related(
+            "availability"
+        ).order_by("-created_at")
 
         return context
 
