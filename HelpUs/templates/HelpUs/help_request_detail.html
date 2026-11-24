@@ -1,0 +1,39 @@
+{% extends 'HelpUs/base.html' %}
+
+{% block title %}
+    Détail de la demande d'aide
+{% endblock %}
+
+{% block main %}
+
+<h1>{{ help_request.skill.name }}</h1>
+
+<p>
+    <strong>Description :</strong>
+    {{ help_request.activity_description }}
+</p>
+
+<p>
+    <strong>Demandeur :</strong>
+    {{ help_request.requester.username }}
+</p>
+
+<p>
+    <strong>Disponibilités :</strong>
+    {% for availability in help_request.availability.all %}
+        {{ availability.day }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+        Non renseignées
+    {% endfor %}
+</p>
+
+<p>
+    <strong>Publié le :</strong>
+    {{ help_request.created_at|date:"d/m/Y à H:i" }}
+</p>
+
+<a href="{% url 'HelpUs:index' %}" class="btn btn-secondary">
+    Retour à l'accueil
+</a>
+
+{% endblock %}
