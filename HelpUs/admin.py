@@ -5,7 +5,7 @@ Registers the application models and customizes their administration views.
 """
 from django.contrib import admin
 
-from HelpUs.models import Activities, Skills, Post
+from HelpUs.models import Activities, Skills, Post, HelpRequest
 
 
 class ActivitiesInline(admin.TabularInline):
@@ -33,8 +33,29 @@ class SkillsAdmin(admin.ModelAdmin):
     ordering = ('name')
 
 
+class HelpRequestAdmin(admin.ModelAdmin):
+    """
+    Customizes the administration interface for help requests.
+    """
+    list_display = (
+        'requester',
+        'skill',
+        'availability',
+        'volunteer',
+        'created_at',
+    )
+    list_filter = ('skill', 'availability', 'created_at')
+    search_fields = (
+        'requester__username',
+        'volunteer__username',
+        'skill__name',
+        'activity_description',
+    )
+    ordering = ('-created_at',)
+    readonly_fields = ('created_at',)
+
+
 admin.site.register(Skills)
 admin.site.register(Activities)
 admin.site.register(Post)
-
-
+admin.site.register(HelpRequest, HelpRequestAdmin)
