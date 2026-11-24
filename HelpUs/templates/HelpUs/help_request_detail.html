@@ -32,6 +32,28 @@
     {{ help_request.created_at|date:"d/m/Y à H:i" }}
 </p>
 
+{% if help_request.volunteer %}
+    <p>
+        <strong>Bénévole :</strong>
+        {{ help_request.volunteer.username }}
+    </p>
+
+{% elif not user.is_authenticated %}
+    <p>
+        Connectez-vous pour proposer votre aide.
+    </p>
+    <a href="{% url 'login' %}?next={{ request.path }}"
+       class="btn btn-primary">
+        Se connecter
+    </a>
+
+{% elif user == help_request.requester %}
+    <p>Vous êtes à l'origine de cette demande.</p>
+
+{% else %}
+    <p>Cette demande est disponible pour votre aide.</p>
+{% endif %}
+
 <a href="{% url 'HelpUs:index' %}" class="btn btn-secondary">
     Retour à l'accueil
 </a>
