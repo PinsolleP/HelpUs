@@ -26,4 +26,7 @@ urlpatterns = [
 
     # Displays posts filtered by skill.
     path('competence/<int:skill_id>/', views.FilterSkillView.as_view(), name="filter_skill"),
+
+    # Help request creation page.
+    path('help-request/', views.create_help_request, name="create_help_request"),
 ]
