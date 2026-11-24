@@ -29,4 +29,11 @@ urlpatterns = [
 
     # Help request creation page.
     path('help-request/', views.create_help_request, name="create_help_request"),
+
+    # Displays the details of a selected help request.
+    path(
+        'help-request/<int:pk>/',
+        views.HelpRequestDetailView.as_view(),
+        name="help_request_detail"
+    ),
 ]
