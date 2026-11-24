@@ -10,6 +10,15 @@
 
     <h1 class="mb-3">Compétences Proposées récemment</h1>
 
+{% if user.is_authenticated %}
+    <div class="mb-4">
+        <a href="{% url 'HelpUs:create_help_request' %}"
+           class="btn btn-primary">
+            Déposer une demande d'aide
+        </a>
+    </div>
+{% endif %}
+
     {% if latest_skills_list %}
     <ul>
     {% for skill in latest_skills_list %}
