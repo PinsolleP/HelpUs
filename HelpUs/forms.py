@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
-from .models import Skills, Activities, Availability
+from .models import Skills, Activities, Availability, HelpRequest
 
 
 class RegisterForm(UserCreationForm):
@@ -76,3 +76,24 @@ class RegisterForm(UserCreationForm):
             )
 
         return cleaned_data
+
+
+class HelpRequestForm(forms.ModelForm):
+    """
+    Handles the creation of a help request.
+    """
+
+    class Meta:
+        model = HelpRequest
+        fields = ('skill', 'activity_description', 'availability')
+        widgets = {
+            'availability': forms.CheckboxSelectMultiple(),
+            'activity_description': forms.Textarea(attrs={
+                'rows': 4,
+            }),
+        }
+        labels = {
+            'skill': 'Compétence recherchée',
+            'activity_description': 'Description de votre demande',
+            'availability': 'Mes disponibilités',
+        }
