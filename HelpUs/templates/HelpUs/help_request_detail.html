@@ -6,6 +6,14 @@
 
 {% block main %}
 
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
 <h1>{{ help_request.skill.name }}</h1>
 
 <p>
@@ -51,7 +59,14 @@
     <p>Vous êtes à l'origine de cette demande.</p>
 
 {% else %}
-    <p>Cette demande est disponible pour votre aide.</p>
+    <form method="post"
+      action="{% url 'HelpUs:volunteer_for_help' help_request.pk %}">
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-success">
+        Proposer mon aide
+    </button>
+</form>
 {% endif %}
 
 <a href="{% url 'HelpUs:index' %}" class="btn btn-secondary">
