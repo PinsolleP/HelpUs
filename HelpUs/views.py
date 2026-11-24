@@ -254,25 +254,16 @@ def volunteer_for_help(request, pk):
     """
     Registers the connected user as a volunteer for a help request.
     """
-    help_request = get_object_or_404(HelpRequest, pk=pk)
-
-    if request.user == help_request.requester:
-        messages.warning(
-            request,
-            "Vous ne pouvez pas proposer votre aide à votre propre demande."
+    with transaction.atomic():
+        help_request = get_object_or_404(
+            HelpRequest.objects.select_for_update(),
+            pk=pk
         )
-    else:
-        updated = HelpRequest.objects.filter(
-            pk=pk,
-            volunteer__isnull=True
-        ).update(volunteer=request.user)
 
-        if updated == 0:
-            messages.warning(
-                request,
-                "Cette demande possède déjà un bénévole."
-            )
-        else:
+        if help_request.volunteer is None and request.user != help_request.requester:
+            help_request.volunteer = request.user
+            help_request.save(update_fields=["volunteer"])
+
             messages.success(
                 request,
                 "Votre proposition d'aide a bien été enregistrée."
