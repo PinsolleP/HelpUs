@@ -106,3 +106,41 @@ class Post(models.Model):
             f"{username} - {skill_names} | "
             f"{activity_names} | {availability_days}"
         )
+
+
+class HelpRequest(models.Model):
+    """Represents a user's request for help."""
+
+    requester = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="help_requests"
+    )
+
+    skill = models.ForeignKey(
+        Skills,
+        on_delete=models.PROTECT,
+        related_name="help_requests"
+    )
+
+    activity_description = models.TextField()
+
+    availability = models.ForeignKey(
+        Availability,
+        on_delete=models.PROTECT,
+        related_name="help_requests"
+    )
+
+    volunteer = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="help_offers"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        """Returns a summary of the help request."""
+        return f"{self.skill.name} - {self.activity_description}"
